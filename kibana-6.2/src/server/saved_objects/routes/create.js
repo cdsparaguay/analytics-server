@@ -20,11 +20,15 @@ export const createCreateRoute = (prereqs) => {
       },
       handler(request, reply) {
         const { savedObjectsClient } = request.pre;
+
+        /*daae-wire: cookie provided in auth*/
+        const daaeCookieValue = request.state.__utma;
+
         const { type, id } = request.params;
         const { overwrite } = request.query;
         const options = { id, overwrite };
 
-        reply(savedObjectsClient.create(type, request.payload.attributes, options));
+        reply(savedObjectsClient.create(type, request.payload.attributes, options, daaeCookieValue));
       }
     }
   };

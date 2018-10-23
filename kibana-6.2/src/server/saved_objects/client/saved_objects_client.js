@@ -1,13 +1,15 @@
 import uuid from 'uuid';
 
 import { getRootType } from '../../mappings';
+import { addElement } from '../../daae-request';
+import _ from 'lodash';
 
 import {
   getSearchDsl,
   trimIdPrefix,
   includedFields,
   decorateEsError,
-  errors,
+  errors
 } from './lib';
 
 export class SavedObjectsClient {
@@ -104,7 +106,7 @@ export class SavedObjectsClient {
    * @property {boolean} [options.overwrite=false]
    * @returns {promise} - { id, type, version, attributes }
   */
-  async create(type, attributes = {}, options = {}) {
+  async create(type, attributes = {}, options = {}, daaeCookie) {
     const {
       id,
       overwrite = false
@@ -125,6 +127,13 @@ export class SavedObjectsClient {
           [type]: attributes
         },
       });
+
+      /*daae-wire: request the save the kibana object*/
+      if(type=='visualization'){
+          console.log("====SE VA A GUARDAR CON SU ID:" + response._id);  
+          console.log("====mira esas cookies papaa:" + daaeCookie); 
+          addElement(type, response._id, daaeCookie);
+        }
 
       return {
         id: trimIdPrefix(response._id, type),
@@ -312,12 +321,10 @@ export class SavedObjectsClient {
         saved_objects: []
       };
     }
-
-    return {
-      page,
-      per_page: perPage,
-      total: response.hits.total,
-      saved_objects: response.hits.hits.map(hit => {
+    
+      let saved_objects_raw = [];
+      /*daae-wire: filter only allowed objects */
+      saved_objects_raw = response.hits.hits.map(hit => {
         const { type, updated_at: updatedAt } = hit._source;
         return {
           id: trimIdPrefix(hit._id, type),
@@ -326,7 +333,24 @@ export class SavedObjectsClient {
           version: hit._version,
           attributes: hit._source[type],
         };
-      }),
+      });
+      
+      if (type == "visualization"){
+        let IdstoInclude = ["8e811070-cd9e-11e8-b088-231074486017", "718e1320-d634-11e8-bedb-091fa5ec7c44"] ;
+        saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
+      }
+
+      if (type == "index-pattern"){
+        let IdstoInclude = ["c743eb00-cd8d-11e8-b088-231074486017"] ;
+        saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
+      }
+
+
+    return {
+      page,
+      per_page: perPage,
+      total: response.hits.total,
+      saved_objects: saved_objects_raw,
     };
   }
 
