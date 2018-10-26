@@ -70,14 +70,14 @@ export default function (kibana) {
       links: [
         {
           id: 'kibana:discover',
-          title: 'Discover',
+          title: 'Explore sus datos',
           order: -1003,
           url: `${kbnBaseUrl}#/discover`,
           description: 'interactively explore your data',
           icon: 'plugins/kibana/assets/discover.svg',
         }, {
           id: 'kibana:visualize',
-          title: 'Visualize',
+          title: 'Visualizaciones',
           order: -1002,
           url: `${kbnBaseUrl}#/visualize`,
           description: 'design data visualizations',
