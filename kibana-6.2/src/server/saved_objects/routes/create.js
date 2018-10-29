@@ -22,7 +22,7 @@ export const createCreateRoute = (prereqs) => {
         const { savedObjectsClient } = request.pre;
 
         /*daae-wire: cookie provided in auth*/
-        const daaeCookieValue = request.state.__utma;
+        const daaeCookieValue = request.state.DAAEAUTHTOKEN;
 
         const { type, id } = request.params;
         const { overwrite } = request.query;

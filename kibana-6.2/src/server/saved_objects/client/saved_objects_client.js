@@ -1,7 +1,7 @@
 import uuid from 'uuid';
 
 import { getRootType } from '../../mappings';
-import { addElement } from '../../daae-request';
+import { daaeCreateElement, daaeListElement } from '../../daae-request';
 import _ from 'lodash';
 
 import {
@@ -129,11 +129,9 @@ export class SavedObjectsClient {
       });
 
       /*daae-wire: request the save the kibana object*/
-      if(type=='visualization'){
-          console.log("====SE VA A GUARDAR CON SU ID:" + response._id);  
-          console.log("====mira esas cookies papaa:" + daaeCookie); 
-          addElement(type, response._id, daaeCookie);
-        }
+      console.log("Guardado con el id interno :" + response._id);  
+      console.log("Cookies de daae disponible:" + daaeCookie); 
+      daaeCreateElement(type, trimIdPrefix(response._id, type), daaeCookie);
 
       return {
         id: trimIdPrefix(response._id, type),
@@ -271,7 +269,7 @@ export class SavedObjectsClient {
    * @property {Array<string>} [options.fields]
    * @returns {promise} - { saved_objects: [{ id, type, version, attributes }], total, per_page, page }
    */
-  async find(options = {}) {
+  async find(options = {}, daaeCookie) {
     const {
       type,
       search,
@@ -336,14 +334,21 @@ export class SavedObjectsClient {
       });
       
       if (type == "visualization"){
-        let IdstoInclude = ["8e811070-cd9e-11e8-b088-231074486017", "718e1320-d634-11e8-bedb-091fa5ec7c44"] ;
+        //let IdstoInclude = ["8e811070-cd9e-11e8-b088-231074486017", "718e1320-d634-11e8-bedb-091fa5ec7c44"] ;
+        let IdstoInclude = await daaeListElement(type, daaeCookie); 
+        console.log("===================");
+        console.log(IdstoInclude);
         saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
       }
-
+      
       if (type == "index-pattern"){
-        let IdstoInclude = ["c743eb00-cd8d-11e8-b088-231074486017"] ;
+        //let IdstoInclude = ["c743eb00-cd8d-11e8-b088-231074486017"] ;
+        let IdstoInclude = await daaeListElement(type, daaeCookie);
+        console.log("===================");
+        console.log(IdstoInclude);
         saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
       }
+      
 
 
     return {

@@ -26,7 +26,11 @@ export const createFindRoute = (prereqs) => ({
         options.type = request.params.type;
       }
 
-      reply(request.pre.savedObjectsClient.find(options));
+       /*daae-wire: cookie provided in auth*/
+       const daaeCookieValue = request.state.DAAEAUTHTOKEN;
+
+
+      reply(request.pre.savedObjectsClient.find(options, daaeCookieValue));
     }
   }
 });
