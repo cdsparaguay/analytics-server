@@ -6,7 +6,12 @@ const request = require('request');
 
 
 export function daaeCreateElement(type, id, userIdAsCookieValue){
-     /* /dataviewer/kibana/save/{type}/{realId}      */
+    if(userIdAsCookieValue == null || userIdAsCookieValue === undefined) {
+        console.log("userIdAsCookieValue was null, because is not saved");
+        return ;
+    } 
+    
+    /* /dataviewer/kibana/save/{type}/{realId}      */
     var options = {
         url: URL_BACKEND + "dataviewer/kibana/save/" + type + "/"+ id ,
         headers: {

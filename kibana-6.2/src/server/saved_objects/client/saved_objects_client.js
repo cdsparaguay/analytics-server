@@ -334,7 +334,6 @@ export class SavedObjectsClient {
       });
       
       if (type == "visualization"){
-        //let IdstoInclude = ["8e811070-cd9e-11e8-b088-231074486017", "718e1320-d634-11e8-bedb-091fa5ec7c44"] ;
         let IdstoInclude = await daaeListElement(type, daaeCookie); 
         console.log("===================");
         console.log(IdstoInclude);
@@ -342,7 +341,6 @@ export class SavedObjectsClient {
       }
       
       if (type == "index-pattern"){
-        //let IdstoInclude = ["c743eb00-cd8d-11e8-b088-231074486017"] ;
         let IdstoInclude = await daaeListElement(type, daaeCookie);
         console.log("===================");
         console.log(IdstoInclude);
