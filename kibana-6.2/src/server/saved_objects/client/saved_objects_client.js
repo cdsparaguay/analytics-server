@@ -333,21 +333,22 @@ export class SavedObjectsClient {
         };
       });
       
-      if (type == "visualization"){
-        let IdstoInclude = await daaeListElement(type, daaeCookie); 
-        console.log("===================");
-        console.log(IdstoInclude);
-        saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
-      }
-      
-      if (type == "index-pattern"){
-        let IdstoInclude = await daaeListElement(type, daaeCookie);
-        console.log("===================");
-        console.log(IdstoInclude);
-        saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
-      }
-      
+      const DAAE_APPLY_FILTER= true;
 
+      if (type == "visualization" && DAAE_APPLY_FILTER ) {
+        let IdstoInclude = await daaeListElement(type, daaeCookie); 
+        console.log("===================visualization list");
+        console.log(IdstoInclude);
+        saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
+      }
+      
+      if (type == "index-pattern" && DAAE_APPLY_FILTER){
+        let IdstoInclude = await daaeListElement(type, daaeCookie);
+        console.log("===================index-pattern list ");
+        console.log(IdstoInclude);
+        saved_objects_raw = _.filter(saved_objects_raw , (v) => _.includes(IdstoInclude, v.id));
+      }
+           
 
     return {
       page,

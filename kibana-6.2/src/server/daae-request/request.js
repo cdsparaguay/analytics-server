@@ -32,6 +32,11 @@ export function daaeCreateElement(type, id, userIdAsCookieValue){
  */
 export function daaeListElement(type, userIdAsCookieValue, ){
     
+    if(userIdAsCookieValue == null || userIdAsCookieValue === undefined) {
+        console.log("userIdAsCookieValue was null, because returned empty list ");
+        return [];
+    }
+
     var options = {
         url: URL_BACKEND + "dataviewer/kibana/list/" + type ,
         headers: {
@@ -44,7 +49,10 @@ export function daaeListElement(type, userIdAsCookieValue, ){
                 console.log(err); 
                 reject(err);
             }
+        
             resolve(JSON.parse(body));
+            
+            
         });
     });
         

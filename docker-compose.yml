@@ -6,10 +6,10 @@ services:
        
   elastic:
      image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
-     container_name: dengue_elastic
+     container_name: dengue_elasticsearch
      ports:
-      - 9200:9200
-      - 9300:9300
+      - 9250:9200
+      - 9350:9300
      environment:
        ELASTIC_PASSWORD: Cds.2016
        NETWORK_HOST: 0.0.0.0
@@ -17,15 +17,15 @@ services:
   #
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:6.2.2
-    container_name: dengue_kibana
+    container_name: dengue_kibana_1
     environment:
       SERVER_NAME: kibana.dengue
       ELASTICSEARCH_USERNAME: elastic
       ELASTICSEARCH_PASSWORD: Cds.2016
-      ELASTICSEARCH_URL: http://elastic:9200
+      ELASTICSEARCH_URL: http://elastic:9250
       SERVER_HOST: 0.0.0.0
     ports:
-      - 5601:5601
+      - 5610:5601
     
 
       
@@ -37,74 +37,7 @@ services:
     ports:
      - "86:80"
      - 5612:5612
-    #links:
-    # - kibana
-    #extra_hosts:
-    # - "daae-api:192.168.1.108"
-    # - "kibana:192.168.1.108" 
     network_mode: "host"    
-
-  ##---- 
-  openresty:
-    build: ./openresty
-    container_name: dengue_openresty
-    ports:
-     - "88:80"
-     - 11200:11200
-
-
-
-  nginx_original:
-    image: nginx:1.13.12
-    command: [nginx-debug, '-g', 'daemon off;']
-    container_name: dengue_nginx_original
-    ports:
-     - "85:80"
-     - "10200:10200"
-    
-
-
-
-  ldap:
-    image: osixia/openldap:1.2.0
-    container_name: dengue_openldap
-    ports:
-     - 389:389
-    environment:
-      LDAP_ORGANISATION: cds
-      LDAP_DOMAIN: cds.com
-      LDAP_ADMIN_PASSWORD: Cds2016
-      LDAP_CONFIG_PASSWORD: Cds2016
-      
-      
-      
-
-  elastic2_toremove:
-     build: ./elasticsearch
-     image: elasticsearch_searchguard
-     container_name: dengue_elastic_safeguard
-     ports:
-      - 9201:9200
-      - 9301:9300
-
-     environment:
-       NETWORK_HOST: 0.0.0.0
- 
-
-
-  kibana2_toremove:
-    image: docker.elastic.co/kibana/kibana-oss:6.2.2
-    container_name: dengue_kibana_safeguard
-    environment:
-      SERVER_NAME: kibana.dengue
-      ELASTICSEARCH_USERNAME: kibanaserver
-      ELASTICSEARCH_PASSWORD: kibanaserver
-      SERVER_HOST: 0.0.0.0
-
-
-    ports:
-      - 5601:5601    
-      
 
 
 
