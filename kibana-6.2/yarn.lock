@@ -331,9 +331,9 @@ angular-translate@2.13.1:
   dependencies:
     angular ">=1.2.26 <=1.6"
 
-angular@1.6.5, angular@>=1.0.6, "angular@>=1.2.26 <=1.6":
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.6.5.tgz#37f788eebec5ce2e3fa02b17bbcb2a231576a0d6"
+angular@1.8.0, angular@>=1.0.6, "angular@>=1.2.26 <=1.6":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.8.0.tgz#b1ec179887869215cab6dfd0df2e42caa65b1b51"
 
 ansi-align@^2.0.0:
   version "2.0.0"
@@ -9610,7 +9610,7 @@ reactcss@1.2.3, reactcss@^1.2.0:
 
 read-all-stream@^3.0.0:
   version "3.1.0"
-  resolved "http://registry.npmjs.org/read-all-stream/-/read-all-stream-3.1.0.tgz#35c3e177f2078ef789ee4bfafa4373074eaef4fa"
+  resolved "https://registry.npmjs.org/read-all-stream/-/read-all-stream-3.1.0.tgz#35c3e177f2078ef789ee4bfafa4373074eaef4fa"
   dependencies:
     pinkie-promise "^2.0.0"
     readable-stream "^2.0.0"
